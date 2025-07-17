@@ -305,7 +305,7 @@
         </div>
 
         <div class="success-message" id="successMessage">
-            Login successful! Redirecting...
+            Login successful! Opening staff portal in new tab...
         </div>
 
         <form id="signinForm">
@@ -351,7 +351,7 @@
 
     <script>
         // IMPORTANT: Replace this with your deployed Google Apps Script Web App URL
-        const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyZ8g3TeM8PRvfJKQ5gcjBjScTGLsDBJn8sqD6Ow_ta2_niKmfwYadtAirMN9njngGsjA/exec';
+        const GAS_API_URL = 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE';
         
         // Form handling
         const form = document.getElementById('signinForm');
@@ -417,9 +417,23 @@
                     // Show success message
                     successMessage.classList.add('show');
                     
-                    // Redirect after delay
+                    // Exit iframe and open new tab after delay
                     setTimeout(() => {
-                        window.location.href = 'https://chumbakasibu.github.io/management/wp_staff_main_portal.html';
+                        // Open new tab with the staff portal
+                        window.open('https://chumbakasibu.github.io/management/wp_staff_main_portal.html', '_blank');
+                        
+                        // Check if we're in an iframe
+                        if (window.parent !== window) {
+                            // Send message to parent window to handle iframe closure
+                            window.parent.postMessage({
+                                type: 'loginSuccess',
+                                username: usernameInput.value,
+                                action: 'closeIframe'
+                            }, '*');
+                        } else {
+                            // If not in iframe, redirect current window to a success page or close
+                            window.location.href = 'https://chumbakasibu.github.io/';
+                        }
                     }, 1500);
                     
                 } else {
@@ -460,6 +474,28 @@
                 passwordInput.focus();
             }
         });
+
+        /* 
+        PARENT PAGE IFRAME HANDLER
+        If this signin page is loaded in an iframe, add this script to your parent page:
+        
+        window.addEventListener('message', function(event) {
+            // Verify the origin for security
+            if (event.origin !== 'https://chumbakasibu.github.io') return;
+            
+            if (event.data.type === 'loginSuccess' && event.data.action === 'closeIframe') {
+                // Handle iframe closure - examples:
+                // 1. Hide the iframe
+                document.getElementById('signinIframe').style.display = 'none';
+                
+                // 2. Or remove the iframe completely
+                // document.getElementById('signinIframe').remove();
+                
+                // 3. Or hide a modal containing the iframe
+                // document.getElementById('signinModal').style.display = 'none';
+            }
+        });
+        */
     </script>
 </body>
 </html>
