@@ -949,15 +949,19 @@
 
         // Listen for messages from the iframe
         window.addEventListener('message', function(event) {
-            if (event.data.type === 'loginSuccess') {
+            // Verify the origin for security (update this to match your actual domain)
+            // if (event.origin !== 'https://chumbakasibu.github.io') return;
+    
+            if (event.data.type === 'loginSuccess' && event.data.action === 'closeIframe') {
                 // Close the modal
                 closeStaffModal();
-                
-                // Optionally redirect to staff dashboard or show success message
-                // For now, we'll redirect to the staff dashboard
-                setTimeout(() => {
-                    window.location.href = '/staff-dashboard';
-                }, 500);
+        
+                // Optional: Show a success message or notification
+                // You could add a success toast/notification here if desired
+                console.log('Staff login successful for user:', event.data.username);
+        
+                // The new tab with the staff portal has already been opened by the signin page
+                // So we just close the modal and don't redirect the current page
             }
         });
 
