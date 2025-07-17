@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CHUMBAKA Sibu - Building Tomorrow's Innovators Today</title>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+        :root {
+            --chumbaka-red: #DC143C;
+            --chumbaka-dark-red: #B91C3C;
+            --chumbaka-light-red: #FF3860;
+            --chumbaka-white: #FFFFFF;
+            --chumbaka-black: #1a1a1a;
+            --chumbaka-grey: #6B7280;
+            --chumbaka-light-grey: #F3F4F6;
+            --chumbaka-dark-grey: #374151;
+            --text-primary: #1a202c;
+            --text-secondary: #4a5568;
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
+            --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            background: #fff;
+            color: var(--text-primary);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Subtle Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            opacity: 0;
+            animation: slideDown 0.8s ease-out 2.5s forwards;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        @keyframes slideDown {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-logo {
+            height: 40px;
+            width: auto;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .header-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .header-link:hover {
+            color: var(--chumbaka-red);
+        }
+
+        /* Video Background */
+        .video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        #bg-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
+
+        /* Content Container */
+        .content-container {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            height: 100vh;
+            text-align: center;
+            padding: 80px 20px 20px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Logo Container */
+        .logo-container {
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: fadeInScale 1.5s ease-out 0.5s forwards;
+        }
+
+        .logo {
+            width: 500px;
+            height: auto;
+            filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.1));
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Tagline */
+        .tagline {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            color: var(--chumbaka-black);
+            margin-bottom: 30px;
+            letter-spacing: -1px;
+            line-height: 1.1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tagline-word {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInWord 0.6s ease-out forwards;
+        }
+
+        .tagline-word:nth-child(1) {
+            animation-delay: 1s;
+        }
+
+        .tagline-word:nth-child(2) {
+            animation-delay: 1.3s;
+        }
+
+        .tagline-word:nth-child(3) {
+            animation-delay: 1.6s;
+        }
+
+        @keyframes fadeInWord {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .tagline-period {
+            color: var(--chumbaka-red);
+            font-weight: 900;
+        }
+
+        /* Description */
+        .description {
+            font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+            font-weight: 400;
+            color: var(--text-secondary);
+            max-width: 800px;
+            line-height: 1.8;
+            margin: 0 auto 5px auto;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-out 2s forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Buttons Container */
+        .buttons-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+            margin-top: 0px;
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        /* Modern Button Styles */
+        .cta-button {
+            padding: 22px 50px;
+            font-size: 1.15rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: 0.3px;
+            min-height: 70px;
+            box-shadow: var(--shadow-lg);
+            transform: translateY(0);
+            opacity: 0;
+            animation: fadeInButton 0.6s ease-out forwards;
+        }
+
+        .cta-button:nth-child(1) {
+            animation-delay: 1.2s;
+        }
+
+        .cta-button:nth-child(2) {
+            animation-delay: 1.4s;
+        }
+
+        .cta-button:nth-child(3) {
+            animation-delay: 1.6s;
+        }
+
+        .cta-button:nth-child(4) {
+            animation-delay: 1.8s;
+        }
+
+        @keyframes fadeInButton {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-2xl);
+        }
+
+        .cta-button:active {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Individual Button Styles with Modern Gradients */
+        .students-button {
+            background: linear-gradient(135deg, var(--chumbaka-red), var(--chumbaka-light-red));
+            color: var(--chumbaka-white);
+        }
+
+        .students-button:hover {
+            background: linear-gradient(135deg, var(--chumbaka-dark-red), var(--chumbaka-red));
+            box-shadow: 0 15px 35px rgba(220, 20, 60, 0.3);
+        }
+
+        .parents-button {
+            background: var(--chumbaka-white);
+            color: var(--chumbaka-red);
+            border: 2px solid var(--chumbaka-red);
+        }
+
+        .parents-button:hover {
+            background: var(--chumbaka-red);
+            color: var(--chumbaka-white);
+            box-shadow: 0 15px 35px rgba(220, 20, 60, 0.2);
+        }
+
+        .staff-button {
+            background: linear-gradient(135deg, #2d3748, #4a5568);
+            color: var(--chumbaka-white);
+        }
+
+        .staff-button:hover {
+            background: linear-gradient(135deg, #1a202c, #2d3748);
+            box-shadow: 0 15px 35px rgba(45, 55, 72, 0.3);
+        }
+
+        .contact-button {
+            background: var(--chumbaka-white);
+            color: var(--text-primary);
+            border: 2px solid var(--text-primary);
+        }
+
+        .contact-button:hover {
+            background: var(--text-primary);
+            color: var(--chumbaka-white);
+            box-shadow: 0 15px 35px rgba(26, 32, 44, 0.2);
+        }
+
+        /* Enhanced Contact Modal with Glassmorphism */
+        .contact-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            backdrop-filter: blur(20px);
+        }
+
+        .contact-modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            color: var(--text-primary);
+            padding: 60px;
+            border-radius: 24px;
+            max-width: 600px;
+            width: 90%;
+            transform: scale(0.8) translateY(20px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.2);
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .contact-modal.active .modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-header {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--chumbaka-red);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .modal-subheader {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 45px;
+            text-align: center;
+        }
+
+        .contact-info {
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            padding: 22px;
+            border-radius: 16px;
+            background: rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .contact-info:hover {
+            transform: translateX(10px);
+            background: rgba(220, 20, 60, 0.05);
+            border-color: rgba(220, 20, 60, 0.2);
+            box-shadow: 0 5px 20px rgba(220, 20, 60, 0.1);
+        }
+
+        .contact-info svg {
+            width: 32px;
+            height: 32px;
+            fill: var(--chumbaka-red);
+            flex-shrink: 0;
+        }
+
+        .contact-info a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .contact-info a:hover {
+            color: var(--chumbaka-red);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background: rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-modal:hover {
+            background: rgba(220, 20, 60, 0.1);
+            transform: rotate(90deg) scale(1.1);
+            border-color: var(--chumbaka-red);
+            color: var(--chumbaka-red);
+        }
+
+        /* Staff Login Modal (Iframe) */
+        .staff-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            backdrop-filter: blur(20px);
+        }
+
+        .staff-modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .staff-modal-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            width: 90%;
+            max-width: 500px;
+            height: auto;
+            max-height: 90vh;
+            transform: scale(0.8) translateY(20px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.2);
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            overflow: hidden;
+        }
+
+        .staff-modal.active .staff-modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        .staff-iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+            border-radius: 24px;
+        }
+
+        .close-staff-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .close-staff-modal:hover {
+            background: rgba(220, 20, 60, 0.1);
+            transform: rotate(90deg) scale(1.1);
+            border-color: var(--chumbaka-red);
+            color: var(--chumbaka-red);
+        }
+
+        /* Subtle Floating Particles */
+        .particles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(220, 20, 60, 0.2);
+            border-radius: 50%;
+            animation: float-particle 25s infinite linear;
+        }
+
+        @keyframes float-particle {
+            from {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            to {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        /* Loading screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--chumbaka-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-screen.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 3px solid rgba(220, 20, 60, 0.1);
+            border-top-color: var(--chumbaka-red);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                padding: 15px 20px;
+            }
+
+            .header-nav {
+                display: none;
+            }
+
+            .content-container {
+                min-height: -webkit-fill-available;
+                padding: 80px 15px 20px;
+            }
+
+            .logo {
+                width: 300px;
+            }
+
+            .tagline {
+                font-size: clamp(1.8rem, 4vw, 2.5rem);
+                padding: 0 20px;
+                gap: 8px;
+            }
+
+            .tagline-word {
+                display: inline-block;
+            }
+
+            .description {
+                font-size: clamp(1rem, 2.5vw, 1.3rem);
+                padding: 0 15px;
+                margin-bottom: 30px;
+            }
+
+            .buttons-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+                max-width: 500px;
+                margin: 0 auto;
+            }
+
+            .cta-button {
+                padding: 20px 35px;
+                font-size: 1.05rem;
+                min-height: 65px;
+            }
+
+            .modal-content {
+                padding: 40px 25px;
+                margin: 20px;
+            }
+
+            .modal-header {
+                font-size: 2.2rem;
+            }
+
+            .contact-info {
+                font-size: 0.95rem;
+                padding: 18px;
+            }
+
+            .staff-iframe {
+                height: 500px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                width: 220px;
+            }
+
+            .tagline {
+                font-size: 1.5rem;
+                margin-bottom: 20px;
+                gap: 5px;
+            }
+
+            .description {
+                font-size: 0.95rem;
+            }
+
+            .buttons-container {
+                grid-template-columns: 1fr;
+                max-width: 320px;
+            }
+
+            .cta-button {
+                padding: 18px 30px;
+                font-size: 1rem;
+            }
+
+            .staff-modal-content {
+                width: 95%;
+                margin: 10px;
+            }
+
+            .staff-iframe {
+                height: 450px;
+            }
+        }
+
+        /* Prevent horizontal scroll on mobile */
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+            position: relative;
+        }
+
+        /* Ripple effect for buttons */
+        .cta-button .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            transform: scale(0);
+            animation: ripple-animation 0.6s ease-out;
+            pointer-events: none;
+        }
+
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* Smooth animations for page elements */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Add glow effect to logo on hover */
+        .logo:hover {
+            filter: drop-shadow(0 20px 40px rgba(220, 20, 60, 0.2));
+            transform: scale(1.02);
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <img src="https://chumbakasibu.github.io/landing/landing_logo.gif" alt="CHUMBAKA" class="header-logo">
+            <nav class="header-nav">
+                <a href="https://www.chumbaka.asia/about-us/" class="header-link">About</a>
+                <a href="https://www.chumbaka.asia/programs/" class="header-link">Programs</a>
+                <a href="https://www.chumbaka.asia/contact-us/" class="header-link">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Video Background -->
+    <div class="video-container">
+        <video id="bg-video" autoplay muted loop playsinline>
+            <source src="https://chumbakasibu.github.io/landing/landing_video_bg.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- Floating Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Main Content -->
+    <div class="content-container">
+        <div class="logo-container">
+            <img src="https://chumbakasibu.github.io/landing/landing_logo.gif" alt="CHUMBAKA Logo" class="logo">
+            
+            <h1 class="tagline">
+                <span class="tagline-word">Coding<span class="tagline-period">.</span></span>
+                <span class="tagline-word">Technology<span class="tagline-period">.</span></span>
+                <span class="tagline-word">Soft&nbsp;Skills<span class="tagline-period">.</span></span>
+            </h1>
+            
+            <p class="description">
+                Re-igniting children's passion for learning through hands-on technology education
+            </p>
+        </div>
+
+        <div class="buttons-container">
+            <button class="cta-button students-button" onclick="window.location.href='https://www.chumbaka.asia/contact-us/'">
+                <span>For Students</span>
+            </button>
+            <button class="cta-button parents-button" onclick="window.location.href='https://www.chumbaka.asia/contact-us/'">
+                <span>For Parents</span>
+            </button>
+            <button class="cta-button staff-button" onclick="openStaffModal()">
+                <span>For Staff</span>
+            </button>
+            <button class="cta-button contact-button" onclick="openContactModal()">
+                <span>Contact Us</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Contact Modal -->
+    <div class="contact-modal" id="contactModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeContactModal()">×</button>
+            <h2 class="modal-header">Get In Touch</h2>
+            <p class="modal-subheader">Start your journey to becoming a future innovator</p>
+            
+            <div class="contact-info">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                </svg>
+                <span>Veritas Academy, 1 Jalan Nibong, 96000 Sibu, Sarawak</span>
+            </div>
+            
+            <div class="contact-info">
+                <svg viewBox="0 0 24 24">
+                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                </svg>
+                <a href="mailto:sibu@chumbaka.asia">sibu@chumbaka.asia</a>
+            </div>
+            
+            <div class="contact-info">
+                <svg viewBox="0 0 24 24">
+                    <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                </svg>
+                <span>+60 84-313 828</span>
+            </div>
+            
+            <div class="contact-info">
+                <svg viewBox="0 0 24 24">
+                    <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
+                </svg>
+                <span>Classes: Saturdays & Sundays</span>
+            </div>
+
+            <div class="contact-info">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                <span>Ages 8-18 • All skill levels welcome</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Staff Login Modal -->
+    <div class="staff-modal" id="staffModal">
+        <div class="staff-modal-content">
+            <button class="close-staff-modal" onclick="closeStaffModal()">×</button>
+            <iframe 
+                src="https://chumbakasibu.github.io/landing/staff_signin.html" 
+                class="staff-iframe"
+                id="staffIframe"
+                title="Staff Sign In"
+            ></iframe>
+        </div>
+    </div>
+
+    <script>
+        // Create floating particles
+        const particlesContainer = document.getElementById('particles');
+        const particleCount = 20; // Reduced for subtlety
+
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 25 + 's';
+            particle.style.animationDuration = (25 + Math.random() * 15) + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        // Hide loading screen when video is ready
+        const video = document.getElementById('bg-video');
+        const loadingScreen = document.getElementById('loadingScreen');
+
+        video.addEventListener('loadeddata', function() {
+            setTimeout(() => {
+                loadingScreen.classList.add('fade-out');
+            }, 500);
+        });
+
+        // Fast fallback for slow connections
+        setTimeout(() => {
+            loadingScreen.classList.add('fade-out');
+        }, 2000);
+
+        // Contact Modal Functions
+        function openContactModal() {
+            document.getElementById('contactModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeContactModal() {
+            document.getElementById('contactModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Staff Modal Functions
+        function openStaffModal() {
+            // Store the current page as last visited
+            localStorage.setItem('lastVisitedUrl', window.location.href);
+            
+            document.getElementById('staffModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeStaffModal() {
+            document.getElementById('staffModal').classList.remove('active');
+            document.body.style.overflow = '';
+            
+            // Clear the iframe src and reload to reset the form
+            const iframe = document.getElementById('staffIframe');
+            const src = iframe.src;
+            iframe.src = '';
+            setTimeout(() => {
+                iframe.src = src;
+            }, 100);
+        }
+
+        // Listen for messages from the iframe
+        window.addEventListener('message', function(event) {
+            if (event.data.type === 'loginSuccess') {
+                // Close the modal
+                closeStaffModal();
+                
+                // Optionally redirect to staff dashboard or show success message
+                // For now, we'll redirect to the staff dashboard
+                setTimeout(() => {
+                    window.location.href = '/staff-dashboard';
+                }, 500);
+            }
+        });
+
+        // Close modals when clicking outside
+        document.getElementById('contactModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeContactModal();
+            }
+        });
+
+        document.getElementById('staffModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeStaffModal();
+            }
+        });
+
+        // Close modals with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeContactModal();
+                closeStaffModal();
+            }
+        });
+
+        // Ensure video plays on mobile devices
+        video.play().catch(function(error) {
+            console.log("Video autoplay failed:", error);
+        });
+
+        // Add ripple effect to buttons
+        document.querySelectorAll('.cta-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const rect = this.getBoundingClientRect();
+                const ripple = document.createElement('div');
+                const size = Math.max(rect.width, rect.height);
+                
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = e.clientX - rect.left - size / 2 + 'px';
+                ripple.style.top = e.clientY - rect.top - size / 2 + 'px';
+                
+                ripple.classList.add('ripple');
+                this.appendChild(ripple);
+                
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+
+        // Smooth parallax effect on mouse move
+        document.addEventListener('mousemove', (e) => {
+            const particles = document.querySelectorAll('.particle');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            particles.forEach((particle, index) => {
+                const speed = (index % 3 + 1) * 0.5;
+                particle.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+            });
+        });
+    </script>
+</body>
+</html>
