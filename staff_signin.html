@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Staff Sign In - CHUMBAKA Sibu</title>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+        :root {
+            --chumbaka-red: #DC143C;
+            --chumbaka-dark-red: #B91C3C;
+            --chumbaka-light-red: #FF3860;
+            --chumbaka-white: #FFFFFF;
+            --chumbaka-black: #1a1a1a;
+            --chumbaka-grey: #6B7280;
+            --chumbaka-light-grey: #F3F4F6;
+            --chumbaka-dark-grey: #374151;
+            --text-primary: #1a202c;
+            --text-secondary: #4a5568;
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--chumbaka-white);
+            color: var(--text-primary);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Sign In Container */
+        .signin-container {
+            background: var(--chumbaka-white);
+            padding: 40px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 400px;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Logo */
+        .logo-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            width: 150px;
+            height: auto;
+            filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.1));
+        }
+
+        /* Header */
+        .signin-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .signin-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .signin-subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        /* Form Group */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: var(--chumbaka-white);
+            color: var(--text-primary);
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--chumbaka-red);
+            box-shadow: 0 0 0 3px rgba(220, 20, 60, 0.1);
+        }
+
+        input::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.6;
+        }
+
+        /* Remember Me Checkbox */
+        .remember-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            gap: 8px;
+        }
+
+        .remember-container input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--chumbaka-red);
+        }
+
+        .remember-container label {
+            margin-bottom: 0;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Sign In Button */
+        .signin-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--chumbaka-red), var(--chumbaka-light-red));
+            color: var(--chumbaka-white);
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: 0.3px;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .signin-btn:hover {
+            background: linear-gradient(135deg, var(--chumbaka-dark-red), var(--chumbaka-red));
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(220, 20, 60, 0.25);
+        }
+
+        .signin-btn:active {
+            transform: translateY(0);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Error Message */
+        .error-message {
+            background: rgba(220, 20, 60, 0.1);
+            border: 1px solid rgba(220, 20, 60, 0.2);
+            color: var(--chumbaka-red);
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 0.85rem;
+            display: none;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+
+        /* Forgot Password Link */
+        .forgot-password {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .forgot-password a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .forgot-password a:hover {
+            color: var(--chumbaka-red);
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .signin-btn.loading .btn-text {
+            display: none;
+        }
+
+        .signin-btn.loading .spinner {
+            display: block;
+        }
+
+        /* Success Message */
+        .success-message {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            color: #16a34a;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 0.85rem;
+            display: none;
+            text-align: center;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        /* Responsive for small iframe */
+        @media (max-width: 400px) {
+            .signin-container {
+                padding: 30px 20px;
+            }
+
+            .logo {
+                width: 120px;
+            }
+
+            .signin-title {
+                font-size: 1.5rem;
+            }
+
+            .signin-subtitle {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sign In Container -->
+    <div class="signin-container">
+        <div class="logo-container">
+            <img src="https://chumbakasibu.github.io/landing_logo.gif" alt="CHUMBAKA Logo" class="logo">
+        </div>
+
+        <div class="signin-header">
+            <h1 class="signin-title">Staff Portal</h1>
+            <p class="signin-subtitle">Sign in to access your dashboard</p>
+        </div>
+
+        <div class="error-message" id="errorMessage">
+            Invalid username or password. Please try again.
+        </div>
+
+        <div class="success-message" id="successMessage">
+            Login successful! Redirecting...
+        </div>
+
+        <form id="signinForm">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input 
+                    type="text" 
+                    id="username" 
+                    name="username" 
+                    placeholder="Enter your username"
+                    required
+                    autocomplete="username"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    name="password" 
+                    placeholder="Enter your password"
+                    required
+                    autocomplete="current-password"
+                >
+            </div>
+
+            <div class="remember-container">
+                <input type="checkbox" id="remember" name="remember">
+                <label for="remember">Remember me</label>
+            </div>
+
+            <button type="submit" class="signin-btn" id="signinBtn">
+                <span class="btn-text">Sign In</span>
+                <div class="spinner"></div>
+            </button>
+        </form>
+
+        <div class="forgot-password">
+            <a href="#">Forgot your password?</a>
+        </div>
+    </div>
+
+    <script>
+        // Form handling
+        const form = document.getElementById('signinForm');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const rememberCheckbox = document.getElementById('remember');
+        const signinBtn = document.getElementById('signinBtn');
+        const errorMessage = document.getElementById('errorMessage');
+        const successMessage = document.getElementById('successMessage');
+
+        // Load remembered username
+        const rememberedUsername = localStorage.getItem('rememberedUsername');
+        if (rememberedUsername) {
+            usernameInput.value = rememberedUsername;
+            rememberCheckbox.checked = true;
+        }
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Hide messages
+            errorMessage.classList.remove('show');
+            successMessage.classList.remove('show');
+            
+            // Show loading state
+            signinBtn.classList.add('loading');
+            signinBtn.disabled = true;
+
+            // Simulate authentication delay
+            setTimeout(() => {
+                // Store account credentials
+                const account = [{
+                    username: usernameInput.value,
+                    password: passwordInput.value,
+                    role: 'staff',
+                    timestamp: new Date().toISOString()
+                }];
+                
+                localStorage.setItem('staffAccounts', JSON.stringify(account));
+                localStorage.setItem('isStaffLoggedIn', 'true');
+                
+                // Remember username if checked
+                if (rememberCheckbox.checked) {
+                    localStorage.setItem('rememberedUsername', usernameInput.value);
+                } else {
+                    localStorage.removeItem('rememberedUsername');
+                }
+                
+                // Show success message
+                successMessage.classList.add('show');
+                
+                // Notify parent window and close after delay
+                setTimeout(() => {
+                    // Send message to parent window
+                    if (window.parent !== window) {
+                        window.parent.postMessage({
+                            type: 'loginSuccess',
+                            username: usernameInput.value
+                        }, '*');
+                    } else {
+                        // If not in iframe, redirect
+                        const lastVisitedUrl = localStorage.getItem('lastVisitedUrl');
+                        if (lastVisitedUrl && !lastVisitedUrl.includes('signin')) {
+                            window.location.href = lastVisitedUrl;
+                        } else {
+                            window.location.href = '/staff-dashboard';
+                        }
+                    }
+                }, 1500);
+            }, 1000);
+        });
+
+        // Focus on username field when page loads
+        window.addEventListener('load', () => {
+            usernameInput.focus();
+        });
+
+        // Handle Enter key on inputs
+        usernameInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && usernameInput.value) {
+                passwordInput.focus();
+            }
+        });
+    </script>
+</body>
+</html>
