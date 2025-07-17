@@ -72,7 +72,7 @@
             filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.1));
             display: block;
             margin: 0 auto;
-            transform: translateX(-40px);  /* Adjust this value as needed */
+            transform: translateX(-40px);
         }
 
         /* Header */
@@ -350,6 +350,9 @@
     </div>
 
     <script>
+        // IMPORTANT: Replace this with your deployed Google Apps Script Web App URL
+        const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyZ8g3TeM8PRvfJKQ5gcjBjScTGLsDBJn8sqD6Ow_ta2_niKmfwYadtAirMN9njngGsjA/exec';
+        
         // Form handling
         const form = document.getElementById('signinForm');
         const usernameInput = document.getElementById('username');
@@ -366,7 +369,7 @@
             rememberCheckbox.checked = true;
         }
 
-        form.addEventListener('submit', function(e) {
+        form.addEventListener('submit', async function(e) {
             e.preventDefault();
             
             // Hide messages
@@ -377,48 +380,73 @@
             signinBtn.classList.add('loading');
             signinBtn.disabled = true;
 
-            // Simulate authentication delay
-            setTimeout(() => {
-                // Store account credentials
-                const account = [{
-                    username: usernameInput.value,
-                    password: passwordInput.value,
-                    role: 'staff',
-                    timestamp: new Date().toISOString()
-                }];
-                
-                localStorage.setItem('staffAccounts', JSON.stringify(account));
-                localStorage.setItem('isStaffLoggedIn', 'true');
-                
-                // Remember username if checked
-                if (rememberCheckbox.checked) {
-                    localStorage.setItem('rememberedUsername', usernameInput.value);
+            try {
+                // Make request to Google Apps Script
+                const response = await fetch(GAS_API_URL, {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'text/plain',
+                    },
+                    body: JSON.stringify({
+                        username: usernameInput.value,
+                        password: passwordInput.value
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // Store account info
+                    const account = [{
+                        username: usernameInput.value,
+                        role: 'staff',
+                        timestamp: new Date().toISOString()
+                    }];
+                    
+                    localStorage.setItem('staffAccounts', JSON.stringify(account));
+                    localStorage.setItem('isStaffLoggedIn', 'true');
+                    
+                    // Remember username if checked
+                    if (rememberCheckbox.checked) {
+                        localStorage.setItem('rememberedUsername', usernameInput.value);
+                    } else {
+                        localStorage.removeItem('rememberedUsername');
+                    }
+                    
+                    // Show success message
+                    successMessage.classList.add('show');
+                    
+                    // Redirect after delay
+                    setTimeout(() => {
+                        window.location.href = 'https://chumbakasibu.github.io/management/staff_main_portal_v1.html';
+                    }, 1500);
+                    
                 } else {
-                    localStorage.removeItem('rememberedUsername');
+                    // Show error message
+                    errorMessage.textContent = result.message || 'Invalid username or password. Please try again.';
+                    errorMessage.classList.add('show');
+                    
+                    // Reset button state
+                    signinBtn.classList.remove('loading');
+                    signinBtn.disabled = false;
+                    
+                    // Clear password field
+                    passwordInput.value = '';
+                    passwordInput.focus();
                 }
                 
-                // Show success message
-                successMessage.classList.add('show');
+            } catch (error) {
+                console.error('Authentication error:', error);
                 
-                // Notify parent window and close after delay
-                setTimeout(() => {
-                    // Send message to parent window
-                    if (window.parent !== window) {
-                        window.parent.postMessage({
-                            type: 'loginSuccess',
-                            username: usernameInput.value
-                        }, '*');
-                    } else {
-                        // If not in iframe, redirect
-                        const lastVisitedUrl = localStorage.getItem('lastVisitedUrl');
-                        if (lastVisitedUrl && !lastVisitedUrl.includes('signin')) {
-                            window.location.href = lastVisitedUrl;
-                        } else {
-                            window.location.href = '/staff-dashboard';
-                        }
-                    }
-                }, 1500);
-            }, 1000);
+                // Show generic error message
+                errorMessage.textContent = 'Connection error. Please check your internet connection and try again.';
+                errorMessage.classList.add('show');
+                
+                // Reset button state
+                signinBtn.classList.remove('loading');
+                signinBtn.disabled = false;
+            }
         });
 
         // Focus on username field when page loads
