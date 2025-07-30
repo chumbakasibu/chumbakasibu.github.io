@@ -70,6 +70,7 @@
             // Administrative Tools subsections
             payroll: false,
             expenses: true,
+            'payment-request': true,
             policies: false,
             
             // Analytics & Reporting subsections
@@ -86,7 +87,8 @@
         // SUBSECTION URL MAPPING - Add your URLs here
         const subsectionUrls = {
             // Example URLs - replace with your actual URLs
-            expenses: 'https://script.google.com/macros/s/AKfycbwhJZnB3C15YUjHt7HLMhChuDGSoMmDgSyasgHBIkRRaM7swuEEpT1ZTd3mW6PiRdMm/exec',
+            expenses: 'https://script.google.com/macros/s/AKfycbyQPVPZcrnKgvzzk1vkySUzt7Fv6RFR3_AJEJovJDeVXJhLaBEQfT6TdbBHBR_YKw0t/exec',
+            'payment-request': 'https://script.google.com/macros/s/AKfycbxBaa_BLpYwYprrkPNCGgNozxQPieRr8cC9kSnPrpSt5PZKGXOk82qrBdd5liFFXFWAuA/exec',
             // Add more URL mappings as needed:
             // 'subsection-key': 'your-url-here',
         };
@@ -1086,6 +1088,14 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2zM10 8.5a.5.5 0 11-1 0 .5.5 0 011 0zm5 5a.5.5 0 11-1 0 .5.5 0 011 0z"></path>
                                 </svg>
                                 Expense Claims
+                            </a>
+                        </div>
+                        <div class="subsection-item" data-subsection="payment-request">
+                            <a href="/admin/payment-request" class="subsection-link">
+                                <svg class="subsection-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                                </svg>
+                                Payment Request
                             </a>
                         </div>
                         <div class="subsection-item" data-subsection="policies">
