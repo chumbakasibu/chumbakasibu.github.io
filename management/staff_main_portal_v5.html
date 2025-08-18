@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CHUMBAKA Sibu - Staff Portal</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- ============================================== -->
+    <!-- CONFIGURATION SECTION - EDIT THIS TO ADD/MODIFY SECTIONS -->
+    <!-- ============================================== -->
+    <script>
+        // MAIN CONFIGURATION OBJECT
+        // This is the ONLY place you need to edit to add/remove/modify sections and subsections
+        const portalConfig = {
+            // Portal metadata
+            meta: {
+                title: 'Staff Portal',
+                subtitle: 'Your one-stop hub for managing classes, students, and resources',
+                particleCount: 20 // Number of floating particles
+            },
+            
+            // SECTIONS CONFIGURATION
+            // To add a new section: Add a new object to this array
+            // To add a new subsection: Add a new object to the subsections array
+            // Set active: false to hide, active: true to show
+            sections: [
+                {
+                    id: 'classes',
+                    title: 'Class Management',
+                    description: 'Manage classes, attendance, and assignments',
+                    active: true, // Set to false to hide entire section
+                    subsections: [
+                        {
+                            id: 'my-classes',
+                            title: 'My Classes',
+                            active: false, // Set to true to show this subsection
+                            url: '/classes/my-classes' // Default URL
+                        },
+                        {
+                            id: 'rosters',
+                            title: 'Student Rosters',
+                            active: false,
+                            url: '/classes/rosters'
+                        },
+                        {
+                            id: 'attendance',
+                            title: 'Attendance Tracking',
+                            active: false,
+                            url: '/classes/attendance'
+                        },
+                        {
+                            id: 'lesson-plans',
+                            title: 'Lesson Plans',
+                            active: false,
+                            url: '/classes/lesson-plans'
+                        },
+                        {
+                            id: 'assignments',
+                            title: 'Assignment Management',
+                            active: false,
+                            url: '/classes/assignments'
+                        },
+                        {
+                            id: 'progress',
+                            title: 'Progress Tracking',
+                            active: false,
+                            url: '/classes/progress'
+                        }
+                    ]
+                },
+                
+                {
+                    id: 'external',
+                    title: 'External Engagements',
+                    description: 'Partnerships, events, and community outreach',
+                    active: true,
+                    subsections: [
+                        {
+                            id: 'inquiry',
+                            title: 'Parents Inquiry',
+                            active: true,
+                            url: 'https://script.google.com/macros/s/AKfycbwtnNudEr_R-XnPgkVOkf557AiRbllarIj0lSLq7_4MIZk9lVPSVRhGUE04EEVB1w30/exec'
+                        },
+                        {
+                            id: 'followups',
+                            title: 'Parents Follow-ups',
+                            active: true,
+                            url: 'https://script.google.com/macros/s/AKfycbwtnNudEr_R-XnPgkVOkf557AiRbllarIj0lSLq7_4MIZk9lVPSVRhGUE04EEVB1w30/exec?page=followup '
+                        },
+                        {
+                            id: 'community-outreach',
+                            title: 'Community Outreach',
+                            active: false,
+                            url: '/external/community'
+                        }
+                    ]
+                },
+                
+                {
+                    id: 'admin',
+                    title: 'Administrative Tools',
+                    description: 'Payroll, leave, expenses, and policies',
+                    active: true,
+                    subsections: [
+                        {
+                            id: 'payroll',
+                            title: 'Payroll Information',
+                            active: false,
+                            url: '/admin/payroll'
+                        },
+                        {
+                            id: 'expenses',
+                            title: 'Expense Claims',
+                            active: true, // This is active
+                            url: 'https://script.google.com/macros/s/AKfycbyQPVPZcrnKgvzzk1vkySUzt7Fv6RFR3_AJEJovJDeVXJhLaBEQfT6TdbBHBR_YKw0t/exec'
+                        },
+                        {
+                            id: 'payment-request',
+                            title: 'Payment Request',
+                            active: true, // This is active
+                            url: 'https://script.google.com/macros/s/AKfycbxBaa_BLpYwYprrkPNCGgNozxQPieRr8cC9kSnPrpSt5PZKGXOk82qrBdd5liFFXFWAuA/exec'
+                        },
+                        {
+                            id: 'policies',
+                            title: 'Policy Documents',
+                            active: false,
+                            url: '/admin/policies'
+                        }
+                    ]
+                }
+                
+                // TO ADD A NEW SECTION, COPY THIS TEMPLATE:
+                /*
+                {
+                    id: 'new-section',
+                    title: 'New Section Title',
+                    description: 'Description of the new section',
+                    active: true,
+                    subsections: [
+                        {
+                            id: 'subsection-1',
+                            title: 'Subsection Title',
+                            active: true,
+                            url: '/new-section/subsection-1'
+                        }
+                    ]
+                }
+                */
+            ]
+        };
+    </script>
+    
+    <!-- Styles -->
+    <style>
+        /* Loading screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--chumbaka-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-screen.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 3px solid rgba(220, 20, 60, 0.1);
+            border-top-color: var(--chumbaka-red);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        :root {
+            /* CHUMBAKA Brand Colors */
+            --chumbaka-red: #DC143C;
+            --chumbaka-dark-red: #B91C3C;
+            --chumbaka-light-red: #FF3860;
+            --chumbaka-white: #FFFFFF;
+            --chumbaka-black: #1a1a1a;
+            --chumbaka-grey: #6B7280;
+            --chumbaka-light-grey: #F3F4F6;
+            --chumbaka-dark-grey: #374151;
+            --text-primary: #1a202c;
+            --text-secondary: #4a5568;
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
+            --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #fff;
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* Floating Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(220, 20, 60, 0.2);
+            border-radius: 50%;
+            animation: float-particle 25s infinite linear;
+        }
+        
+        @keyframes float-particle {
+            from {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            to {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+        
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 100;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+            animation: slideDown 0.8s ease-out 0.5s both;
+        }
+        
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--chumbaka-red);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+            transition: all 0.3s ease;
+        }
+        
+        .logo:hover {
+            transform: scale(1.02);
+            filter: drop-shadow(0 20px 40px rgba(220, 20, 60, 0.2));
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .logout-btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #2d3748, #4a5568);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 14px;
+            letter-spacing: 0.3px;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .logout-btn:hover {
+            background: linear-gradient(135deg, #1a202c, #2d3748);
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(45, 55, 72, 0.3);
+        }
+        
+        /* Main Content */
+        .main-container {
+            max-width: 1400px;
+            margin: 100px auto 40px;
+            padding: 0 40px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .page-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 700;
+            color: var(--chumbaka-black);
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+            line-height: 1.1;
+            opacity: 0;
+            transform: scale(0.9);
+            animation: fadeInScale 1s ease-out 0.8s forwards;
+        }
+        
+        .page-subtitle {
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            font-weight: 400;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            line-height: 1.6;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-out 1s forwards;
+        }
+        
+        @keyframes fadeInScale {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+        
+        /* Sections Grid */
+        .sections-grid {
+            display: grid;
+            gap: 24px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease-out 1.2s forwards;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Section Container */
+        .section-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+        
+        .section-container:hover {
+            box-shadow: var(--shadow-xl);
+            transform: translateY(-2px);
+        }
+        
+        .section-header {
+            padding: 28px 32px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(243, 244, 246, 0.5) 100%);
+            border-bottom: 1px solid rgba(220, 20, 60, 0.08);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .section-header:hover {
+            background: linear-gradient(135deg, rgba(220, 20, 60, 0.03) 0%, rgba(220, 20, 60, 0.01) 100%);
+        }
+        
+        .section-info {
+            flex: 1;
+        }
+        
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            letter-spacing: -0.3px;
+        }
+        
+        .section-description {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+        
+        .expand-arrow {
+            width: 24px;
+            height: 24px;
+            color: var(--text-secondary);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .section-container.expanded .expand-arrow {
+            transform: rotate(180deg);
+        }
+        
+        /* Subsections */
+        .subsections {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .section-container.expanded .subsections {
+            max-height: 1000px;
+        }
+        
+        .subsections-content {
+            padding: 24px 32px;
+            display: grid;
+            gap: 12px;
+        }
+        
+        .subsection-item {
+            display: block;
+            padding: 18px 24px;
+            background: rgba(243, 244, 246, 0.5);
+            border-radius: 12px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid transparent;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            font-size: 0.95rem;
+            letter-spacing: 0.2px;
+        }
+        
+        .subsection-item:hover {
+            background: rgba(220, 20, 60, 0.03);
+            transform: translateX(8px);
+            border-color: rgba(220, 20, 60, 0.1);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Ripple Effect */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.05);
+            transform: scale(0);
+            animation: ripple-animation 0.8s ease-out;
+            pointer-events: none;
+        }
+        
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 16px 20px;
+            }
+            
+            .logo {
+                font-size: 24px;
+            }
+            
+            .main-container {
+                padding: 0 20px;
+                margin-top: 80px;
+            }
+            
+            .section-title {
+                font-size: 1.25rem;
+            }
+            
+            .section-header {
+                padding: 20px;
+            }
+            
+            .subsections-content {
+                padding: 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 1.75rem;
+            }
+            
+            .section-header {
+                padding: 16px;
+            }
+            
+            .subsection-item {
+                padding: 14px 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loader"></div>
+    </div>
+    
+    <!-- Floating Particles -->
+    <div class="particles" id="particles"></div>
+    
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="/" class="logo">CHUMBAKA</a>
+            <div class="user-info">
+                <button class="logout-btn">Logout</button>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="main-container">
+        <h1 class="page-title" id="pageTitle"></h1>
+        <p class="page-subtitle" id="pageSubtitle"></p>
+        <div class="sections-grid" id="sectionsGrid">
+            <!-- Content will be generated dynamically -->
+        </div>
+    </main>
+    
+    <script>
+        // ============================================
+        // PORTAL GENERATION ENGINE
+        // ============================================
+        
+        // Function to generate the entire portal from config
+        function generatePortal() {
+            // Set page title and subtitle
+            document.getElementById('pageTitle').textContent = portalConfig.meta.title;
+            document.getElementById('pageSubtitle').textContent = portalConfig.meta.subtitle;
+            
+            // Get the sections grid container
+            const grid = document.getElementById('sectionsGrid');
+            grid.innerHTML = ''; // Clear any existing content
+            
+            // Generate each section
+            portalConfig.sections.forEach((section, index) => {
+                // Skip inactive sections
+                if (!section.active) return;
+                
+                // Create section container
+                const sectionDiv = document.createElement('div');
+                sectionDiv.className = 'section-container';
+                sectionDiv.dataset.section = section.id;
+                
+                // Generate subsections HTML
+                const subsectionsHTML = generateSubsections(section.subsections);
+                
+                // Build section HTML
+                sectionDiv.innerHTML = `
+                    <div class="section-header">
+                        <div class="section-info">
+                            <h2 class="section-title">${section.title}</h2>
+                            <p class="section-description">${section.description}</p>
+                        </div>
+                        <svg class="expand-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="subsections">
+                        <div class="subsections-content">
+                            ${subsectionsHTML}
+                        </div>
+                    </div>
+                `;
+                
+                // Add to grid
+                grid.appendChild(sectionDiv);
+            });
+            
+            // Initialize interactions after content is generated
+            initializeInteractions();
+        }
+        
+        // Function to generate subsections
+        function generateSubsections(subsections) {
+            return subsections
+                .filter(sub => sub.active) // Only show active subsections
+                .map(sub => {
+                    // Determine if URL is external
+                    const isExternal = sub.url.startsWith('http');
+                    const target = isExternal ? 'target="_blank"' : '';
+                    
+                    return `
+                        <a href="${sub.url}" ${target} class="subsection-item" data-subsection="${sub.id}">
+                            ${sub.title}
+                        </a>
+                    `;
+                })
+                .join('');
+        }
+        
+        // Function to initialize all interactions
+        function initializeInteractions() {
+            // Section expand/collapse
+            document.querySelectorAll('.section-header').forEach(header => {
+                header.addEventListener('click', function(e) {
+                    const container = this.closest('.section-container');
+                    container.classList.toggle('expanded');
+                    
+                    // Add ripple effect
+                    addRippleEffect(e, this);
+                });
+            });
+            
+            // Subsection click effects
+            document.querySelectorAll('.subsection-item').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    // Add ripple effect
+                    addRippleEffect(e, this);
+                });
+            });
+            
+            // Logout button
+            document.querySelector('.logout-btn').addEventListener('click', function() {
+                if (confirm('Are you sure you want to logout?')) {
+                    window.location.href = '/logout';
+                }
+            });
+        }
+        
+        // Function to add ripple effect
+        function addRippleEffect(e, element) {
+            const rect = element.getBoundingClientRect();
+            const ripple = document.createElement('div');
+            const size = Math.max(rect.width, rect.height);
+            
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = e.clientX - rect.left - size / 2 + 'px';
+            ripple.style.top = e.clientY - rect.top - size / 2 + 'px';
+            ripple.classList.add('ripple');
+            
+            element.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 800);
+        }
+        
+        // Function to create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = portalConfig.meta.particleCount || 20;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 25 + 's';
+                particle.style.animationDuration = (25 + Math.random() * 15) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Particle parallax effect on mouse move
+        document.addEventListener('mousemove', (e) => {
+            const particles = document.querySelectorAll('.particle');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            particles.forEach((particle, index) => {
+                const speed = (index % 3 + 1) * 0.5;
+                particle.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+            });
+        });
+        
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+        
+        // Initialize everything when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Generate the portal from config
+            generatePortal();
+            
+            // Create floating particles
+            createParticles();
+            
+            // Hide loading screen after a short delay
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.add('fade-out');
+            }, 500);
+        });
+        
+        // Also hide loading screen when window fully loads
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.add('fade-out');
+            }, 500);
+        });
+    </script>
+</body>
+</html>
